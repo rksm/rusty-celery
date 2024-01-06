@@ -64,163 +64,115 @@ struct Task {
 
 impl TaskAttrs {
     fn name(&self) -> Option<String> {
-        self.attrs
-            .iter()
-            .filter_map(|a| match a {
-                TaskAttr::Name(s) => Some(s.value()),
-                _ => None,
-            })
-            .next()
+        self.attrs.iter().find_map(|a| match a {
+            TaskAttr::Name(s) => Some(s.value()),
+            _ => None,
+        })
     }
 
     fn wrapper(&self) -> Option<syn::Ident> {
-        self.attrs
-            .iter()
-            .filter_map(|a| match a {
-                TaskAttr::Wrapper(i) => Some(i.clone()),
-                _ => None,
-            })
-            .next()
+        self.attrs.iter().find_map(|a| match a {
+            TaskAttr::Wrapper(i) => Some(i.clone()),
+            _ => None,
+        })
     }
 
     fn params_type(&self) -> Option<syn::Ident> {
-        self.attrs
-            .iter()
-            .filter_map(|a| match a {
-                TaskAttr::ParamsType(i) => Some(i.clone()),
-                _ => None,
-            })
-            .next()
+        self.attrs.iter().find_map(|a| match a {
+            TaskAttr::ParamsType(i) => Some(i.clone()),
+            _ => None,
+        })
     }
 
     fn time_limit(&self) -> Option<syn::LitInt> {
-        self.attrs
-            .iter()
-            .filter_map(|a| match a {
-                TaskAttr::TimeLimit(r) => Some(r.clone()),
-                _ => None,
-            })
-            .next()
+        self.attrs.iter().find_map(|a| match a {
+            TaskAttr::TimeLimit(r) => Some(r.clone()),
+            _ => None,
+        })
     }
 
     fn hard_time_limit(&self) -> Option<syn::LitInt> {
-        self.attrs
-            .iter()
-            .filter_map(|a| match a {
-                TaskAttr::HardTimeLimit(r) => Some(r.clone()),
-                _ => None,
-            })
-            .next()
+        self.attrs.iter().find_map(|a| match a {
+            TaskAttr::HardTimeLimit(r) => Some(r.clone()),
+            _ => None,
+        })
     }
 
     fn expires_in(&self) -> Option<syn::LitInt> {
-        self.attrs
-            .iter()
-            .filter_map(|a| match a {
-                TaskAttr::ExpiresIn(r) => Some(r.clone()),
-                _ => None,
-            })
-            .next()
+        self.attrs.iter().find_map(|a| match a {
+            TaskAttr::ExpiresIn(r) => Some(r.clone()),
+            _ => None,
+        })
     }
 
     fn expires(&self) -> Option<syn::Expr> {
-        self.attrs
-            .iter()
-            .filter_map(|a| match a {
-                TaskAttr::Expires(r) => Some(r.clone()),
-                _ => None,
-            })
-            .next()
+        self.attrs.iter().find_map(|a| match a {
+            TaskAttr::Expires(r) => Some(r.clone()),
+            _ => None,
+        })
     }
 
     fn max_retries(&self) -> Option<syn::LitInt> {
-        self.attrs
-            .iter()
-            .filter_map(|a| match a {
-                TaskAttr::MaxRetries(r) => Some(r.clone()),
-                _ => None,
-            })
-            .next()
+        self.attrs.iter().find_map(|a| match a {
+            TaskAttr::MaxRetries(r) => Some(r.clone()),
+            _ => None,
+        })
     }
 
     fn min_retry_delay(&self) -> Option<syn::LitInt> {
-        self.attrs
-            .iter()
-            .filter_map(|a| match a {
-                TaskAttr::MinRetryDelay(r) => Some(r.clone()),
-                _ => None,
-            })
-            .next()
+        self.attrs.iter().find_map(|a| match a {
+            TaskAttr::MinRetryDelay(r) => Some(r.clone()),
+            _ => None,
+        })
     }
 
     fn max_retry_delay(&self) -> Option<syn::LitInt> {
-        self.attrs
-            .iter()
-            .filter_map(|a| match a {
-                TaskAttr::MaxRetryDelay(r) => Some(r.clone()),
-                _ => None,
-            })
-            .next()
+        self.attrs.iter().find_map(|a| match a {
+            TaskAttr::MaxRetryDelay(r) => Some(r.clone()),
+            _ => None,
+        })
     }
 
     fn retry_for_unexpected(&self) -> Option<syn::LitBool> {
-        self.attrs
-            .iter()
-            .filter_map(|a| match a {
-                TaskAttr::RetryForUnexpected(r) => Some(r.clone()),
-                _ => None,
-            })
-            .next()
+        self.attrs.iter().find_map(|a| match a {
+            TaskAttr::RetryForUnexpected(r) => Some(r.clone()),
+            _ => None,
+        })
     }
 
     fn acks_late(&self) -> Option<syn::LitBool> {
-        self.attrs
-            .iter()
-            .filter_map(|a| match a {
-                TaskAttr::AcksLate(r) => Some(r.clone()),
-                _ => None,
-            })
-            .next()
+        self.attrs.iter().find_map(|a| match a {
+            TaskAttr::AcksLate(r) => Some(r.clone()),
+            _ => None,
+        })
     }
 
     fn content_type(&self) -> Option<syn::Ident> {
-        self.attrs
-            .iter()
-            .filter_map(|a| match a {
-                TaskAttr::ContentType(r) => Some(r.clone()),
-                _ => None,
-            })
-            .next()
+        self.attrs.iter().find_map(|a| match a {
+            TaskAttr::ContentType(r) => Some(r.clone()),
+            _ => None,
+        })
     }
 
     fn bind(&self) -> Option<syn::LitBool> {
-        self.attrs
-            .iter()
-            .filter_map(|a| match a {
-                TaskAttr::Bind(r) => Some(r.clone()),
-                _ => None,
-            })
-            .next()
+        self.attrs.iter().find_map(|a| match a {
+            TaskAttr::Bind(r) => Some(r.clone()),
+            _ => None,
+        })
     }
 
     fn on_failure(&self) -> Option<syn::Ident> {
-        self.attrs
-            .iter()
-            .filter_map(|a| match a {
-                TaskAttr::OnFailure(i) => Some(i.clone()),
-                _ => None,
-            })
-            .next()
+        self.attrs.iter().find_map(|a| match a {
+            TaskAttr::OnFailure(i) => Some(i.clone()),
+            _ => None,
+        })
     }
 
     fn on_success(&self) -> Option<syn::Ident> {
-        self.attrs
-            .iter()
-            .filter_map(|a| match a {
-                TaskAttr::OnSuccess(i) => Some(i.clone()),
-                _ => None,
-            })
-            .next()
+        self.attrs.iter().find_map(|a| match a {
+            TaskAttr::OnSuccess(i) => Some(i.clone()),
+            _ => None,
+        })
     }
 }
 
@@ -606,7 +558,7 @@ impl ToTokens for Task {
 
             impl #wrapper {
                 #vis fn new(#typed_inputs) -> #krate::task::Signature<Self> {
-                    #krate::task::Signature::<Self>::new(
+                    #krate::task::Signature::new(
                         #params_type {
                             #params_args
                         }

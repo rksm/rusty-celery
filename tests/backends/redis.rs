@@ -28,7 +28,7 @@ pub async fn task_with_expires_failure() -> TaskResult<i32> {
 async fn app() -> Result<Arc<Celery>, CeleryError> {
     celery::app!(
         broker = AMQPBroker { std::env::var("AMQP_ADDR").unwrap_or_else(|_| "amqp://127.0.0.1:5672//".into()) },
-        backend = RedisBAckend { std::env::var("REDIS_ADDR").unwrap_or_else(|_| "redis://127.0.0.1:6379/".into()) },
+        backend = RedisBackend { std::env::var("REDIS_ADDR").unwrap_or_else(|_| "redis://127.0.0.1:6379/".into()) },
         tasks = [sucessful_task, task_with_retry_failure, task_with_expires_failure],
         task_routes = ["*" => "celery"],
         prefetch_count = 2

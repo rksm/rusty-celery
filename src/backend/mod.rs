@@ -63,7 +63,7 @@ pub trait Backend: Send + Sync {
                 status,
                 result: Some(result),
                 traceback: None,
-                date_done: NaiveDateTime::from_timestamp_opt(chrono::Utc::now().timestamp(), 0),
+                date_done: Some(Local::now().fixed_offset()),
             },
         )
         .await
@@ -100,6 +100,11 @@ pub trait Backend: Send + Sync {
         error: TaskError,
         date_done: NaiveDateTime,
     ) -> Result<(), BackendError> {
+        let date_done = date_done
+            .and_local_timezone(Local::now().timezone())
+            .map(|date| date.fixed_offset())
+            .earliest()
+            .unwrap_or_else(|| Local::now().fixed_offset());
         let metadata = TaskMeta {
             task_id: task_id.to_string(),
             status: TaskState::Failure,
@@ -131,7 +136,7 @@ pub struct TaskMeta {
     /// Error of the task.
     pub(crate) traceback: Option<String>,
     /// Date of culmination of the task
-    pub(crate) date_done: Option<NaiveDateTime>,
+    pub(crate) date_done: Option<DateTime<FixedOffset>>,
     // TODO
     // pub(crate) children: Option<Vec<String>>,
 }

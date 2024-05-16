@@ -61,11 +61,16 @@ where
         let id = self.task_id.clone();
         let backend = self.backend.unwrap();
         let start = Instant::now();
+        let timeout = self.timeout;
 
-        log::debug!("waiting for task {id}");
+        log::debug!("waiting for task {id} timeout={timeout:?}");
 
         let meta = loop {
-            if let Some(timeout) = self.timeout {
+            if let Some(timeout) = timeout {
+                log::debug!(
+                    "task {id} checking for timeout={timeout:?} elapsed={:?}",
+                    start.elapsed()
+                );
                 if start.elapsed() > timeout {
                     log::error!("task {id} timed out!");
                     return Err(crate::error::TaskError::timeout().into());

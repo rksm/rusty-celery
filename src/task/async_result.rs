@@ -58,11 +58,16 @@ where
     pub async fn fetch(self) -> Result<T, crate::error::CeleryError> {
         use super::TaskState::*;
 
+        let id = self.task_id.clone();
         let backend = self.backend.unwrap();
         let start = Instant::now();
+
+        log::debug!("waiting for task {id}");
+
         let meta = loop {
             if let Some(timeout) = self.timeout {
                 if start.elapsed() > timeout {
+                    log::error!("task {id} timed out!");
                     return Err(crate::error::TaskError::timeout().into());
                 }
             }
@@ -70,6 +75,7 @@ where
             // Note: The task meta gets set by the client before the request is
             // send, so this call should never error with "response was nil".
             let meta = backend.get_task_meta(&self.task_id).await?;
+            log::debug!("task {id} update: {meta:?}");
 
             match meta.status {
                 Pending | Started | Received => {
